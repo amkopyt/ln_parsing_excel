@@ -1,23 +1,22 @@
 <template>
   <main>
-    <Header style="grid-area: header;" />
-    <Tabs style="grid-area: tabs;" />
-    <Navbar style="grid-area: navbar;" />
-    <section style="grid-area: content;">
-      content
-    </section>
+    <MainHeader style="grid-area: header;" />
+    <MainTabs style="grid-area: tabs;" />
+    <MainNavbar style="grid-area: navbar;" />
+    <Content style="grid-area: content;" />
   </main>
 </template>
 
 <script>
-import Header from "./components/Header";
-import Navbar from "./components/Navbar";
-import Tabs from "./components/Tabs";
+import MainHeader from "./components/MainHeader";
+import MainNavbar from "./components/MainNavbar";
+import MainTabs from "./components/MainTabs";
+import Content from "./Content"
 
 export default {
     name: "Main",
     components: {
-        Header, Navbar, Tabs
+        MainHeader, MainNavbar, MainTabs, Content
     }
 }
 </script>

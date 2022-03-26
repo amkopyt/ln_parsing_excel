@@ -48,6 +48,7 @@ export default {
     margin-left: auto;
 }
 .m-header__logo {
+    margin-left: 16px;
     display: flex;
     align-items: center;
     position: relative;
@@ -59,6 +60,8 @@ export default {
     font-family: 'Racing Sans One', sans-serif;
     color: #367BF5;
     font-size: 24px;
+    letter-spacing: 0.15px;
+    font-weight: 400;
 }
 .m-header__title {
     margin: 0 -6px;
@@ -75,6 +78,7 @@ export default {
     background-color: #F7F9FA;
     padding: 10px;
     span {
+        color: #5E6366;
         margin-right: 25px;
     }
 }

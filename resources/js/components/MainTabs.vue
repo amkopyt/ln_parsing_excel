@@ -28,6 +28,7 @@ export default {
 .tabs {
     padding: 0;
     margin-top: 5px;
+    margin-bottom: 0;
     list-style: none;
     display: flex;
 }
