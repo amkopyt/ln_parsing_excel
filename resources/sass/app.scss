@@ -1,8 +1,6 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&family=Racing+Sans+One&family=Roboto:wght@400;500&display=swap');
 
-// Variables
-@import 'variables';
-
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+body {
+    font-family: 'Roboto', sans-serif;
+}
