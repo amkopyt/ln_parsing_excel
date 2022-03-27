@@ -1,12 +1,22 @@
 <template>
   <div class="navbar">
-    <div class="navbar__create">
+    <label
+      class="navbar__create"
+      for="file-upload"
+    >
       <img
         src="@/assets/icons/plus.svg"
         alt="Create new"
       >
       <span>Create new</span>
-    </div>
+      <input
+        id="file-upload"
+        style="display:none"
+        type="file"
+        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        @input="fileUpload"
+      >
+    </label>
     <ul class="navbar__list">
       <li
         v-for="list in lists"
@@ -31,6 +41,9 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+
 export default {
     name: "Navbar",
     data() {
@@ -57,6 +70,19 @@ export default {
 
             ],
             currentList: 'metrics'
+        }
+    },
+    methods: {
+        fileUpload(e) {
+            const formData = new FormData();
+            formData.append('file', e.target.files[0]);
+            axios.post('/api/data/upload-excel', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+            }).then(res => {
+                console.log(res)
+            })
         }
     }
 }
