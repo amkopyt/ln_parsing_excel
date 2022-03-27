@@ -9,7 +9,7 @@
             Data
           </th>
           <template
-            v-for="company in headers.companies"
+            v-for="company in getHeaders.companies"
             class="ct-header__company"
           >
             <th
@@ -39,9 +39,15 @@
           </template>
         </tr>
       </thead>
-      <tbody class="ct-body">
+      <tr v-if="!getData.length">
+        <td>Данные не найдены</td>
+      </tr>
+      <tbody
+        v-else
+        class="ct-body"
+      >
         <tr
-          v-for="item in data"
+          v-for="item in getData"
           :key="item.date"
         >
           <td class="ct-body__date">
@@ -80,76 +86,22 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
     name: "ContentTable",
-    data() {
-        return {
-            headers: {
-              companies: ['company1', 'company2']
-            },
-            data: [
-                {
-                    date: 'Data1',
-                    companies: [
-                        {
-                            name: 'company1',
-                            qOil: {
-                                fact: 2,
-                                forecast: 1
-                            },
-                            qLiq: {
-                                fact: 4,
-                                forecast: 1
-                            }
-                        },
-                        {
-                            name: 'company2',
-                            qOil: {
-                                fact: 2,
-                                forecast: 1
-                            },
-                            qLiq: {
-                                fact: 4,
-                                forecast: 1
-                            }
-                        },
-                    ]
-                },
-                {
-                    date: 'Data2',
-                    companies: [
-                        {
-                            name: 'company1',
-                            qOil: {
-                                fact: 4,
-                                forecast: 33
-                            },
-                            qLiq: {
-                                fact: 4,
-                                forecast: 1
-                            }
-                        },
-                        {
-                            name: 'company2',
-                            qOil: {
-                                fact: 2,
-                                forecast: 23
-                            },
-                            qLiq: {
-                                fact: 4,
-                                forecast: 1
-                            }
-                        },
-                    ]
-                }
-            ]
-        }
+    computed: {
+        ...mapGetters(['getData', 'getHeaders']),
+    },
+    created() {
+        this.$store.dispatch('getContent')
     }
 }
 </script>
 
 <style scoped>
 .ct-table {
+    padding: 0;
     max-width: 920px;
     overflow-x: scroll;
 }

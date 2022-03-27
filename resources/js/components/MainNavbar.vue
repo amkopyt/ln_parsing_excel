@@ -41,9 +41,6 @@
 </template>
 
 <script>
-
-import axios from 'axios';
-
 export default {
     name: "Navbar",
     data() {
@@ -76,14 +73,14 @@ export default {
         fileUpload(e) {
             const formData = new FormData();
             formData.append('file', e.target.files[0]);
-            axios.post('/api/data/upload-excel', formData, {
+            window.axios.post('/api/data/upload-excel', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
-            }).then(res => {
-                console.log(res)
+            }).then(() => {
+                this.$store.dispatch('getContent')
             })
-        }
+        },
     }
 }
 </script>
