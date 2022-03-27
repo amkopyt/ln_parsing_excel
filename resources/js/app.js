@@ -8,6 +8,7 @@ import Vue from "vue";
 require('./bootstrap');
 window.Vue = require('vue').default;
 import Main from './Main.vue';
+import store from "@/store";
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -16,6 +17,7 @@ import Main from './Main.vue';
 
 
 const app = new Vue({
+    store,
     el: '#app',
     render: h => h(Main),
 });
