@@ -11,10 +11,11 @@ class TotalDataService
     protected Collection $data;
 
     function __construct() {
-        $this->data = $this->getFromDB();
+        $this->data = $this->getGroupedDataFromDB();
     }
 
-    protected function setCompanyResponseStruct() {
+    protected function getCompanyResponseStruct(): array
+    {
         $companies_response = array();
         $companies = \App\Models\Company::all()->pluck('id');
 
@@ -33,11 +34,15 @@ class TotalDataService
         return $companies_response;
     }
 
-    protected function getFromDB() {
-        return Data::query()->selectRaw('date,company_id, type_of_decision,type_of_value, SUM(value) as sum')->groupByRaw('date,company_id, type_of_decision,type_of_value')->get();
+    protected function getGroupedDataFromDB(): Collection|array
+    {
+        return Data::query()
+            ->selectRaw('date, company_id, type_of_decision, type_of_value, SUM(value) as sum')
+            ->groupByRaw('date, company_id, type_of_decision, type_of_value')->get();
     }
 
-    protected function mergeDataFromDB() {
+    protected function combineDataFromDBByDate(): array
+    {
         $insertData = array();
         foreach($this->data as $data) {
             if(!array_key_exists($data['date'], $insertData)) {
@@ -48,15 +53,19 @@ class TotalDataService
         return $insertData;
     }
 
-    public function toArray() {
+    public function toArray(): array
+    {
         $response = array();
-        foreach ($this->mergeDataFromDB() as $key => $item) {
+        foreach ($this->combineDataFromDBByDate() as $key => $item) {
             $temp_array = array(
               'date' => $key,
-              'companies' => $this->setCompanyResponseStruct()
+              'companies' => $this->getCompanyResponseStruct()
             );
             foreach ($item as $value) {
-                $temp_array['companies'][$value['company_id']][$this->getNameFromTypeOfValue($value['type_of_value'])][$this->getNameFromTypeOfDecision($value['type_of_decision'])] = $value['sum'];
+                $name_from_value = $this->getNameFromTypeOfValue($value['type_of_value']);
+                $name_from_decision = $this->getNameFromTypeOfDecision($value['type_of_decision']);
+
+                $temp_array['companies'][$value['company_id']][$name_from_value][$name_from_decision] = $value['sum'];
             }
             $response[] = $temp_array;
         }
@@ -71,13 +80,15 @@ class TotalDataService
     }
 
 
-    protected function getNameFromTypeOfDecision($type) {
+    protected function getNameFromTypeOfDecision($type): string
+    {
         return match (intval($type)) {
           Data::TYPE_OF_DICISION_FACT => 'fact',
           Data::TYPE_OF_DICISION_FORECAST => 'forecast'
         };
     }
-    protected function getNameFromTypeOfValue($type) {
+    protected function getNameFromTypeOfValue($type): string
+    {
         return match (intval($type)) {
             Data::TYPE_OF_VALUE_QLIQ => 'qLiq',
             Data::TYPE_OF_VALUE_QOIL => 'qOil'
