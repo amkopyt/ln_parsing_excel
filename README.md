@@ -7,6 +7,10 @@ PHP >=8.0
     git clone https://github.com/amkopyt/ln_parsing_excel.git
     cd ln_parsing_excel
     composer install
+    cp .env.example .en
+    php artisan key:generate
+    touch database/database.sqlite
+    php artisan migrate
     npm i
     npm run production
     php artisan serve

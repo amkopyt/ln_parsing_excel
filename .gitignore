@@ -15,7 +15,6 @@ yarn-error.log
 
 # Project exclude paths
 /storage/app/
-/storage/framework/
 
 /public/js/app.js
 /public/css/app.css
