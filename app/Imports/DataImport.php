@@ -27,6 +27,7 @@ class DataImport implements ToCollection
         ])->validate();
         // TODO: Добавить валидацию также остальных полей
 
+        Data::truncate();
         foreach ($rows as $key => $row) {
             if($key > 2) {
                 $company_id = Company::where('name', $row[1])->firstOrCreate([
@@ -36,7 +37,7 @@ class DataImport implements ToCollection
                 foreach ($this->getTypeData($rows) as $type) {
                     Data::create([
                         'company_id' => $company_id,
-                        'date' => Carbon::parse(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($type->date))->toDateTimeString(),
+                        'date' => Carbon::parse(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($type->date))->toDateString(),
                         'type_of_value' => $type->type_of_value,
                         'type_of_decision' => $type->type_of_decision,
                         'value' => $row[$type->key]
